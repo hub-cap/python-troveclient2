@@ -399,7 +399,4 @@ def Client(version, *args, **kwargs):
         '1': 'troveclient.v1.client.Client',
     }
     client_class = client.BaseClient.get_class('database', version, version_map)
-    print args
-    print kwargs
-    http_client = create_http_client(*args, **kwargs)
-    return client_class(http_client, extensions=kwargs.get('extensions'))
+    return client_class(*args, **kwargs)
