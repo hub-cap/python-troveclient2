@@ -13,7 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from troveclient.openstack.common.apiclient import base
+from troveclient import base
 
 import exceptions
 import urlparse
