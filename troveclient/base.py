@@ -25,7 +25,7 @@ import os
 
 import six
 
-from troveclient import exceptions
+from troveclient.openstack.common.apiclient import exceptions
 from troveclient import utils
 
 

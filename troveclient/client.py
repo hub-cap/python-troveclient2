@@ -46,7 +46,7 @@ if not hasattr(urlparse, 'parse_qsl'):
 
 import requests
 
-from troveclient import exceptions
+from troveclient.openstack.common.apiclient import exceptions
 from troveclient import service_catalog
 from troveclient import utils
 from troveclient.openstack.common.apiclient import client
@@ -155,7 +155,7 @@ class HTTPClient(object):
             body = None
 
         if resp.status_code >= 400:
-            raise exceptions.from_response(resp, body)
+            raise exceptions.from_response(resp, body, url)
 
         return resp, body
 
@@ -253,7 +253,7 @@ class HTTPClient(object):
         elif resp.status_code == 305:
             return resp['location']
         else:
-            raise exceptions.from_response(resp, body)
+            raise exceptions.from_response(resp, body, url)
 
     def _fetch_endpoints_from_auth(self, url):
         """We have a token, but don't know the final endpoint for
@@ -344,7 +344,7 @@ class HTTPClient(object):
         elif resp.status_code == 305:
             return resp.headers['location']
         else:
-            raise exceptions.from_response(resp, body)
+            raise exceptions.from_response(resp, body, url)
 
     def _v2_auth(self, url):
         """Authenticate against a v2.0 auth service."""
@@ -386,7 +386,7 @@ class HTTPClient(object):
         magic_tuple = urlparse.urlsplit(self.management_url)
         scheme, netloc, path, query, frag = magic_tuple
         v = path.split("/")[1]
-        valid_versions = ['v1', 'v2']
+        valid_versions = ['v1.0']
         if v not in valid_versions:
             msg = "Invalid client version '%s'. must be one of: %s" % (
                   (v, ', '.join(valid_versions)))
@@ -396,7 +396,7 @@ class HTTPClient(object):
 
 def Client(version, *args, **kwargs):
     version_map = {
-        '1': 'troveclient.v1.client.Client',
+        '1.0': 'troveclient.v1.client.Client',
     }
     client_class = client.BaseClient.get_class('database', version, version_map)
     return client_class(*args, **kwargs)

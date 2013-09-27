@@ -51,14 +51,14 @@ def _find_instance(cs, instance):
     return utils.find_resource(cs.instances, instance)
 
 
-@utils.service_type('instance')
+@utils.service_type('database')
 def do_list(cs, args):
     """List all the instances."""
     return "list_instances"
 
 
 @utils.arg('instance', metavar='<instance>', help='ID of the instance.')
-@utils.service_type('instance')
+@utils.service_type('database')
 def do_show(cs, args):
     """Show details about a instance."""
     instance = _find_instance(cs, args.instance)

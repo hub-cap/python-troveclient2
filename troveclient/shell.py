@@ -39,7 +39,7 @@ from troveclient.openstack.common.apiclient import exceptions as exc
 from troveclient import utils
 from troveclient.v1 import shell as shell_v1
 
-DEFAULT_OS_DATABASE_API_VERSION = "1"
+DEFAULT_OS_DATABASE_API_VERSION = "1.0"
 DEFAULT_TROVE_ENDPOINT_TYPE = 'publicURL'
 DEFAULT_TROVE_SERVICE_TYPE = 'database'
 
@@ -236,7 +236,7 @@ class OpenStackTroveShell(object):
 
         try:
             actions_module = {
-                '1': shell_v1,
+                '1.0': shell_v1,
             }[version]
         except KeyError:
             actions_module = shell_v1
@@ -458,7 +458,8 @@ class OpenStackTroveShell(object):
                     "Change its value via either --os-database-api-version "
                     "or env[OS_DATABASE_API_VERSION]")
                    % (options.os_database_api_version, endpoint_api_version))
-            raise exc.InvalidAPIVersion(msg)
+            #raise exc.InvalidAPIVersion(msg)
+            raise exc.UnsupportedVersion(msg)
 
         args.func(self.cs, args)
 

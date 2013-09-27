@@ -125,10 +125,11 @@ class Instances(base.ManagerWithFind):
 
         :param instance_id: The instance id to delete
         """
-        resp, body = self.api.client.delete("/instances/%s" %
-                                            base.getid(instance))
+        url = "/instances/%s" % base.getid(instance)
+        resp, body = self.api.client.delete(url)
+
         if resp.status in (422, 500):
-            raise exceptions.from_response(resp, body)
+            raise exceptions.from_response(resp, body, url)
 
     def _action(self, instance_id, body):
         """
